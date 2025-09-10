@@ -1,0 +1,85 @@
+﻿for s in sites: 
+	url=s 
+	html=urllib.request.urlopen(url)
+	soup=BeautifulSoup(html.read(), "html.parser") 
+	with open(link, 'w', encoding='utf-8') as f:
+		f.write(str(soup)) 
+	text= open(link, encoding="utf-8")
+	soup=BeautifulSoup(text, "html.parser")
+	result=str(soup)
+	result=result.split() 
+	
+	if len(re.findall('.+oschadbank.+',s)>0: 
+		for word in result: 	
+			term=re.findall('^scope="row">(.+)', word) 
+			terms=terms+term 
+			rate=re.findall('^text-bold">(.+)%', word) 
+			rates=rates+rate  
+		worksheet=workbook.add_worksheet("Exim")
+		row=0
+		col=1
+		worksheet.write(0,0,"Строк депозиту в днях")	
+		worksheet.write(1,0,"ставка (гривня)")
+
+		numb=[0,1,2,3,4,5]
+		for t in numb:
+			worksheet.write(row,col,terms[t])	
+			worksheet.write(row+1,col,fr[t])
+			col+=1 
+			
+		print('Get ',len(rates),'For Oschadbank')
+		total_rates=total_rates+rates
+		
+	if len(re.findall('.+eximb.+',s)>0:
+		for word in result:
+			term=re.findall('^width=".+%">(.+-.+)', word)
+			terms=terms+term		
+			rate=re.findall('^<td>(.+%)</td>', word) 
+			rates=rates+rate 
+
+		
+
+
+		rates=rates[0:18]	
+		terms=terms[0:6]
+		fr=rates[0:6] 
+		sr=rates[6:12]
+		tr=rates[12:19]
+
+
+		
+		worksheet2=workbook.add_worksheet("Exim")
+		row=0
+		col=1
+		worksheet2.write(1,0,"від 30 000 до 499 999,99 грн")	
+		worksheet2.write(2,0,"від 500 000 до 999 999,99 грн") 
+		worksheet2.write(3,0,"від 1 000 000 грн")
+
+		numb=[0,1,2,3,4,5]
+		for t in numb:
+			worksheet2.write(row,col+t,terms[t])	
+			worksheet2.write(row+1,col+t,fr[t]) 
+			worksheet2.write(row+2,col+t,sr[t])
+			worksheet2.write(row+3,col+t,tr[t])
+			col+=1 
+			
+		print('Get ',len(rates),'For UkrEksimbank')
+		total_rates=total_rates+rates
+		
+	if len(re.findall('.+ukrgasbank.+',s)>0: 
+		curen=['UAH','USD','EUR'] 
+		numb=[0,1,2,3,4,5]
+		for word in result:
+			term=re.findall('align="center"><strong>(.+-.+)', word)
+			term2=re.findall('<p><strong>(.+-.+)', word)
+			terms=terms+term+term2
+			rate=re.findall('align="center"><strong>(.+%)</strong></p>', word) 
+			rates=rates+rate  
+			
+			
+		worksheet3=workbook.add_worksheet("UkrGaz") 
+		worksheet3.write(0,0,"Строк(міс)\Валюта")
+		for t in numb: 
+			worksheet3.write(t+1,0,terms[t])
+		for t2 in [0,1,2,3]: 
+			worksheet3.write(0,t2+1,curren[t])'''

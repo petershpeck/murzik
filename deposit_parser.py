@@ -17,7 +17,7 @@ from selenium.webdriver.support import expected_conditions as EC
 PATH_OUT = "OUT"
 
 # =========================================================================================
-def GetHTMLfromUrl(url: str) -> BeautifulSoup:
+def GetHTMLfromUrl(url: str, class_name_located: str) -> BeautifulSoup:
     # Налаштування браузера
     options = Options()
     options.add_argument("--headless")  # без відкриття вікна браузера
@@ -26,7 +26,7 @@ def GetHTMLfromUrl(url: str) -> BeautifulSoup:
     driver.get(url)
     # Очікуємо завантаження таблиці
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "table-rates__table"))
+        EC.presence_of_element_located((By.CLASS_NAME, class_name_located))
     )
     # Отримуємо HTML
     html = driver.page_source
@@ -37,7 +37,7 @@ def GetHTMLfromUrl(url: str) -> BeautifulSoup:
 # =========================================================================================
 def Oshadbank(bank_name: str, url: str, df: pd.DataFrame):
     # Отримати HTML для парсингу
-    soup = GetHTMLfromUrl(url)
+    soup = GetHTMLfromUrl(url, "table-rates__table")
     # Обираємо таблицю "Процентні ставки"
     tables = soup.find_all("table", class_="table-rates__table")
     # Вибираємо першу таблицю (якщо вона містить дані)
@@ -73,6 +73,43 @@ def Oshadbank(bank_name: str, url: str, df: pd.DataFrame):
         print("Таблиці не знайдено.")
 
 # =========================================================================================
+def Sensbank(bank_name: str, url: str, df: pd.DataFrame):
+    # Отримати HTML для парсингу
+    soup = GetHTMLfromUrl(url, "deposit-list__items-item")
+    # Обираємо таблицю "Процентні ставки"
+    div_deposits = soup.find_all("div", class_="deposit-list__items-item")
+    for deposit in div_deposits:
+        flg_parser = False
+        parameters = deposit.find_all("li", class_="deposit-card__list-item text--small")
+        # Знайти ознаку депозиту - "виплата відсотків — у кінці терміну"
+        for parameter in parameters:
+            text = parameter.get_text(strip=True)
+            if text == "виплата відсотків — у кінці терміну":
+                flg_parser = True
+            # Перевірка наявності слова "валюта"
+            if "валюта" in text:
+                # Витягуємо слово після "валюта —" або "валюта:"
+                parts = text.split("—")  # або text.split(":") для іншого варіанту
+                if len(parts) > 1:
+                    curr = parts[1].strip()
+                else:
+                    print("У полі з валютою неочікуваний формат строки.")
+        # Розпарсити депозит, якщо в нього "виплата відсотків — у кінці терміну"
+        if flg_parser:
+            dt = datetime.now().date()
+            term_clean = deposit.find_all("div", class_="deposit-card__content text")[0].get_text(strip=True)
+            rate = deposit.find_all("p", class_="deposit-card__interest-rate-value h5")[0].get_text(strip=True)
+            new_row = {
+                'dt': dt,
+                'bank_name': bank_name,
+                'cur': curr,
+                'termin': term_clean,
+                'percent': rate,
+                'url': url
+            }
+            df.loc[len(df)] = new_row
+
+# =========================================================================================
 def run_script():
     path_name = os.path.dirname(__file__)
     dt = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -106,6 +143,9 @@ def run_script():
                 match bank['Bank']:
                     case "АТ \"Ощадбанк\"":
                         Oshadbank(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
+                        print(f" MSG: ✅ Інформацію додано в датафрейм")
+                    case "АТ \"СЕНС БАНК\"":
+                        Sensbank(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                         print(f" MSG: ✅ Інформацію додано в датафрейм")
                     case _:
                         print(f" MSG: ⚠️  На поточний момент алгоритм для аналізу не готовий")

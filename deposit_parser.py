@@ -17,26 +17,27 @@ from selenium.webdriver.support import expected_conditions as EC
 PATH_OUT = "OUT"
 
 # =========================================================================================
-def Oshadbank(bank_name: str, url: str, df: pd.DataFrame):
+def GetHTMLfromUrl(url: str) -> BeautifulSoup:
     # Налаштування браузера
     options = Options()
     options.add_argument("--headless")  # без відкриття вікна браузера
     service = Service()  # автоматично знайде ChromeDriver, якщо встановлений
-
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
-
     # Очікуємо завантаження таблиці
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "table-rates__table"))
     )
-
     # Отримуємо HTML
     html = driver.page_source
     driver.quit()
+    # Підготувати HTML для парсингу
+    return BeautifulSoup(html, "html.parser")
 
-    # Парсимо таблицю
-    soup = BeautifulSoup(html, "html.parser")
+# =========================================================================================
+def Oshadbank(bank_name: str, url: str, df: pd.DataFrame):
+    # Отримати HTML для парсингу
+    soup = GetHTMLfromUrl(url)
     # Обираємо таблицю "Процентні ставки"
     tables = soup.find_all("table", class_="table-rates__table")
     # Вибираємо першу таблицю (якщо вона містить дані)

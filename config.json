@@ -1,0 +1,162 @@
+[
+    {
+        "Bank": "АТ \"Ощадбанк\"",
+        "Deposit_page_URL": "https://www.oschadbank.ua/deposit/moya-peremoga",
+        "Matches": "Yes (payment at end; no capitalization stated on product page)",
+        "Notes": "Моя Перемога — виплата відсотків у кінці строку.",
+        "Source": "turn0search0, turn0search4",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ КБ \"ПриватБанк\"",
+        "Deposit_page_URL": "https://privatbank.ua/depozyty",
+        "Matches": "Unknown",
+        "Notes": "На сайті є продукти з різною періодичністю нарахувань (щомісяця/капіталізація). Потрібно уточнювати конкретний продукт.",
+        "Source": "turn0search1, turn0search9",
+        "valid_parse": false
+    },
+    {
+        "Bank": "АТ \"СЕНС БАНК\"",
+        "Deposit_page_URL": "https://sensebank.ua/deposits",
+        "Matches": "Yes (payment at end for certain products)",
+        "Notes": "Є продукти зі сплатою відсотків у кінці терміну (наприклад 'Швидкий').",
+        "Source": "turn0search2, turn0search6",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ \"Укрексімбанк\"",
+        "Deposit_page_URL": "https://www.eximb.com/ua/business/pryvatnym-klientam/pryvatnym-klientam-depozyty/",
+        "Matches": "Unknown",
+        "Notes": "У лінійці є продукти з різною періодичністю нарахувань (щомісяця/капіталізація). Потрібне уточнення по конкретному вкладу.",
+        "Source": "turn0search3, turn0search11",
+        "valid_parse": false
+    },
+    {
+        "Bank": "АТ \"ПУМБ\"",
+        "Deposit_page_URL": "https://www.pumb.ua/deposit",
+        "Matches": "No (many products with monthly payout)",
+        "Notes": "Прикладні програми мають щомісячні виплати (наприклад 'Дохідний' — щомісяця).",
+        "Source": "turn4search0, turn4search4",
+        "valid_parse": false
+    },
+    {
+        "Bank": "АТ \"УНІВЕРСАЛ БАНК\"",
+        "Deposit_page_URL": "https://www.universalbank.com.ua/deposit-line",
+        "Matches": "Yes (explicit — виплата в кінці строку, без капіталізації в описі)",
+        "Notes": "Є програми зі ставками і виплатою процентів наприкінці строку; на сторінці згадується 'без капіталізації' для деяких продуктів.",
+        "Source": "turn1search3, turn1search8",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ \"Райффайзен Банк\"",
+        "Deposit_page_URL": "https://raiffeisen.ua/privatnim-osobam/depoziti/depozitni-programi/vklad-klasichnij",
+        "Matches": "Yes (payment at end for 'Класичний Строковий')",
+        "Notes": "Депозит 'Класичний' — виплата відсотків наприкінці строку.",
+        "Source": "turn1search9",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АБ \"УКРГАЗБАНК\"",
+        "Deposit_page_URL": "https://www.ukrgasbank.com/private/deposits/",
+        "Matches": "Yes (some products: 'ЕКО-депозит' має виплату в кінці строку)",
+        "Notes": "Є опції з виплатою відсотків у кінці строку; є також продукти з щомісячною виплатою.",
+        "Source": "turn1search7, turn1search12",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ \"ОТП БАНК\"",
+        "Deposit_page_URL": "https://www.otpbank.com.ua/privateclients/investments/deposits/term/",
+        "Matches": "Yes (explicit: 'строковий вклад з виплатою процентів в кінці строку')",
+        "Notes": "На сторінці є продукт зі сплатою відсотків в кінці строку.",
+        "Source": "turn2search0, turn2search4",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ \"ТАСКОМБАНК\"",
+        "Deposit_page_URL": "https://tascombank.ua/you/deposits",
+        "Matches": "Unknown",
+        "Notes": "Сторінка містить різні продукти; деякі огляди показують щомісячні виплати/капіталізацію.",
+        "Source": "turn2search1, turn2search5",
+        "valid_parse": false
+    },
+    {
+        "Bank": "АТ \"ПРОКРЕДИТ БАНК\"",
+        "Deposit_page_URL": "https://minfin.com.ua/ua/deposits/841-srochnyy/",
+        "Matches": "Yes (payment at end — per product summary)",
+        "Notes": "Інформація (зовнішнє джерело) вказує, що є строковий продукт з виплатою в кінці строку.",
+        "Source": "turn2search2",
+        "valid_parse": true
+    },
+    {
+        "Bank": "Акціонерний банк \"Південний\"",
+        "Deposit_page_URL": "https://minfin.com.ua/ua/deposits/bank_pivdenny/",
+        "Matches": "No (many products show monthly payout)",
+        "Notes": "Огляди показують щомісячні виплати для актуальних програм.",
+        "Source": "turn2search10",
+        "valid_parse": false
+    },
+    {
+        "Bank": "АТ \"КРЕДОБАНК\"",
+        "Deposit_page_URL": "https://kredobank.com.ua/private/depozyty/prybutkovyi",
+        "Matches": "Yes (product page explicitly: 'виплата відсотків у кінці терміну')",
+        "Notes": "Наприклад, вклад 'Прибутковий' має виплату в кінці терміну.",
+        "Source": "turn3search0, turn3search4",
+        "valid_parse": true
+    },
+    {
+        "Bank": "ПуАТ \"КБ \"АКОРДБАНК\"",
+        "Deposit_page_URL": "https://accordbank.com.ua/ua/retail/deposits/novi-hroshi/",
+        "Matches": "Yes (product pages show 'виплата відсотків в кінці терміну')",
+        "Notes": "Декілька продуктів (напр., 'Нові гроші','Максимальний дохід') — виплата в кінці терміну.",
+        "Source": "turn3search1, turn3search5",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ \"БАНК КРЕДИТ ДНІПРО\"",
+        "Deposit_page_URL": "https://creditdnepr.com.ua/depozyty",
+        "Matches": "Yes (product summaries show payment at end option)",
+        "Notes": "Доступні продукти з виплатою відсотків у кінці строку.",
+        "Source": "turn3search2, turn3search10",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ АКБ \"Львів\"",
+        "Deposit_page_URL": "https://www.banklviv.com/private-persons/depozyt-12",
+        "Matches": "Unknown",
+        "Notes": "Сторінка банку містить різні продукти — зустрічаються щомісячні нарахування та інші варіанти.",
+        "Source": "turn3search3, turn3search7",
+        "valid_parse": false
+    },
+    {
+        "Bank": "АТ \"Ідея Банк\"",
+        "Deposit_page_URL": "https://ideabank.ua/uk/deposits/depozyt-klasychnyy",
+        "Matches": "Yes (some products: 'Дохідний' — виплата у кінці строку)",
+        "Notes": "Певні програми вказують виплату відсотків у кінці строку.",
+        "Source": "turn4search5, turn4search9",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ \"АБ \"РАДАБАНК\"",
+        "Deposit_page_URL": "https://www.radabank.com.ua/depozyty/depozyt-maksymalnyi",
+        "Matches": "Yes (explicit: 'виплата відсотків здійснюється в останній день дії депозитного договору')",
+        "Notes": "Продукт 'Максимальний' — виплата в останній день строку.",
+        "Source": "turn4search6, turn4search2",
+        "valid_parse": true
+    },
+    {
+        "Bank": "АТ \"КОМІНБАНК\"",
+        "Deposit_page_URL": "https://cib.com.ua/uk/private/products/depoziti",
+        "Matches": "Unknown",
+        "Notes": "У пропозиціях бувають різні періодичності (щотижневі, щомісячні, в кінці строку — в окремих продуктах).",
+        "Source": "turn4search3, turn4search7",
+        "valid_parse": false
+    },
+    {
+        "Bank": "ПАТ \"БАНК ВОСТОК\"",
+        "Deposit_page_URL": "https://bankvostok.com.ua/private/deposits#/",
+        "Matches": "Unknown/No link found",
+        "Notes": "Не вдалося знайти актуальну сторінку депозитів (можливо банк реорганізований/інформація недоступна).",
+        "Source": NaN,
+        "valid_parse": false
+    }
+]

@@ -41,15 +41,23 @@
     },
     {
         "Bank": "АТ \"УНІВЕРСАЛ БАНК\"",
-        "Deposit_page_URL": "https://www.universalbank.com.ua/deposit-line",
+        "Deposit_page_URL": "https://www.universalbank.com.ua/your-deposits",
         "Matches": "Yes (explicit — виплата в кінці строку, без капіталізації в описі)",
         "Notes": "Є програми зі ставками і виплатою процентів наприкінці строку; на сторінці згадується 'без капіталізації' для деяких продуктів.",
         "Source": "turn1search3, turn1search8",
+        "valid_parse": false
+    },
+    {
+        "Bank": "АТ \"Райффайзен Банк\" - Вклад «Класичний Строковий» в гривні",
+        "Deposit_page_URL": "https://raiffeisen.ua/privatnim-osobam/depoziti/depozitni-programi/vklad-klasichnij",
+        "Matches": "Yes (payment at end for 'Класичний Строковий')",
+        "Notes": "Депозит 'Класичний' — виплата відсотків наприкінці строку.",
+        "Source": "turn1search9",
         "valid_parse": true
     },
     {
-        "Bank": "АТ \"Райффайзен Банк\"",
-        "Deposit_page_URL": "https://raiffeisen.ua/privatnim-osobam/depoziti/depozitni-programi/vklad-klasichnij",
+        "Bank": "АТ \"Райффайзен Банк\" - Вклад Класичний Строковий в доларах США, євро",
+        "Deposit_page_URL": "https://raiffeisen.ua/privatnim-osobam/depoziti/depozitni-programi/vklad-klasychnyi-strokovyi-v-dolarakh-ssha",
         "Matches": "Yes (payment at end for 'Класичний Строковий')",
         "Notes": "Депозит 'Класичний' — виплата відсотків наприкінці строку.",
         "Source": "turn1search9",

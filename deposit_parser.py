@@ -4,9 +4,11 @@ import os
 import json
 import pandas as pd
 
+from datetime import datetime
+from io import StringIO
+
 from bs4 import BeautifulSoup
 
-from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -116,10 +118,53 @@ def RaiffeisenUAH(bank_name: str, url: str, df: pd.DataFrame):
     # Обираємо таблицю "Процентні ставки"
     div_deposit = soup.find_all("div", class_="conditions__wrap js-collapse-wrap")[0]
     dls = div_deposit.find_all("dl")
+    flgAdd = False
+    flgNotPrematureWithdrawal = False
+    curr = ""
     for dl in dls:
-        print(dl)
-        print()
+        dt_text = dl.find("dt").get_text(strip=True)
+        dd_text = dl.find("dd").get_text(strip=True)
+        match dt_text:
+            case "Валюта вклад":
+                curr = dd_text
+            case "Поповнення":
+                if dd_text == "Без поповнення":
+                    flgAdd = True
+            case "Дострокове зняття коштів":
+                if dd_text == "Не передбачене":
+                    flgNotPrematureWithdrawal = True
+            case _:
+                pass
+    if flgAdd and flgNotPrematureWithdrawal:
+        dt = datetime.now().date()
+        tbl_interest_rate = soup.find_all("div", class_="main-title main-title_center")[0]
+        # Знайти таблицю всередині div
+        tbl = tbl_interest_rate.find("table")
+        # Перетворити HTML-таблицю в DataFrame
+        df_html = pd.read_html(StringIO(str(tbl)))[0]
+        df_html = df_html.dropna(how="all")  # прибрати повністю порожні рядки
+        df_html = df_html.loc[:, ~df_html.isna().all()]  # прибрати повністю порожні колонки
+        # Транспонувати таблицю
+        df_html = df_html.T.reset_index()
+        # зробимо перший рядок заголовками
+        df_html.columns = df_html.iloc[0]  
+        df_html = df_html.drop(0).reset_index(drop=True)
+        df_html = df_html.rename(columns={"Unnamed: 0": "Термін"})
+        for idx, row in df_html.iterrows():
+            term = row["Термін"]
+            rate = row["Відкриття у відділенні:"]
 
+            new_row = {
+                'dt': dt,
+                'bank_name': bank_name,
+                'cur': curr,
+                'termin': term,
+                'percent': rate,
+                'url': url
+            }
+            df.loc[len(df)] = new_row
+    else:
+        print(f"⚠️ Відсутні депозити у ГРН без докапіталізації і достроковим зняттям")
 
 # =========================================================================================
 def run_script():
@@ -161,10 +206,13 @@ def run_script():
                         print(f" MSG: ✅ Інформацію додано в датафрейм")
                     case "АТ \"Райффайзен Банк\" - Вклад «Класичний Строковий» в гривні":
                         RaiffeisenUAH(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
+                        print(f" MSG: ✅ Інформацію додано в датафрейм")
                     case _:
                         print(f" MSG: ⚠️  На поточний момент алгоритм для аналізу не готовий")
                 print()
     # -------------------------------------------------------------------------------------
+    if not os.path.exists(os.path.join(path_name, PATH_OUT)):
+        os.makedirs(os.path.join(path_name, PATH_OUT))
     parh_xlsx = os.path.join(path_name, PATH_OUT, f"{dt}_deposit.xlsx")
     df_deposit.to_excel(parh_xlsx, index=False)
     # -------------------------------------------------------------------------------------

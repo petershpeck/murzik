@@ -110,6 +110,18 @@ def Sensbank(bank_name: str, url: str, df: pd.DataFrame):
             df.loc[len(df)] = new_row
 
 # =========================================================================================
+def RaiffeisenUAH(bank_name: str, url: str, df: pd.DataFrame):
+    # Отримати HTML для парсингу
+    soup = GetHTMLfromUrl(url, "container")
+    # Обираємо таблицю "Процентні ставки"
+    div_deposit = soup.find_all("div", class_="conditions__wrap js-collapse-wrap")[0]
+    dls = div_deposit.find_all("dl")
+    for dl in dls:
+        print(dl)
+        print()
+
+
+# =========================================================================================
 def run_script():
     path_name = os.path.dirname(__file__)
     dt = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -147,6 +159,8 @@ def run_script():
                     case "АТ \"СЕНС БАНК\"":
                         Sensbank(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                         print(f" MSG: ✅ Інформацію додано в датафрейм")
+                    case "АТ \"Райффайзен Банк\" - Вклад «Класичний Строковий» в гривні":
+                        RaiffeisenUAH(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                     case _:
                         print(f" MSG: ⚠️  На поточний момент алгоритм для аналізу не готовий")
                 print()

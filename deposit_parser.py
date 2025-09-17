@@ -167,6 +167,11 @@ def RaiffeisenUAH(bank_name: str, url: str, df: pd.DataFrame):
         print(f"⚠️ Відсутні депозити у ГРН без докапіталізації і достроковим зняттям")
 
 # =========================================================================================
+def RaiffeisenUSD_EUR(bank_name: str, url: str, df: pd.DataFrame):
+    # Отримати HTML для парсингу
+    soup = GetHTMLfromUrl(url, "container")
+
+# =========================================================================================
 def run_script():
     path_name = os.path.dirname(__file__)
     dt = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -207,6 +212,8 @@ def run_script():
                     case "АТ \"Райффайзен Банк\" - Вклад «Класичний Строковий» в гривні":
                         RaiffeisenUAH(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                         print(f" MSG: ✅ Інформацію додано в датафрейм")
+                    case "АТ \"Райффайзен Банк\" - Вклад Класичний Строковий в доларах США, євро":
+                        RaiffeisenUSD_EUR(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                     case _:
                         print(f" MSG: ⚠️  На поточний момент алгоритм для аналізу не готовий")
                 print()

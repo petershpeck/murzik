@@ -197,25 +197,25 @@ def run_script():
             if not bank['valid_parse']:
                 print(f"Банк: {bank['Bank']}")
                 print(f" URL: {bank['Deposit_page_URL']}")
-                print(f" MSG: ❓ На поточний момент сторінка не аналізується")
+                print(f" MSG: ❌ На поточний момент сторінку неможливо розпарсити")
                 print()
             else:
-                print(f"Банк: {bank['Bank']}")
+                print(f"Банк: {bank['Bank']} - {bank['Deposit_name']}")
                 print(f" URL: {bank['Deposit_page_URL']}")
-                match bank['Bank']:
-                    case "АТ \"Ощадбанк\"":
+                match (bank['Bank'], bank['Deposit_name']):
+                    case ("АТ \"Ощадбанк\"", "Моя Перемога - виплата відсотків у кінці строку"):
                         Oshadbank(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                         print(f" MSG: ✅ Інформацію додано в датафрейм")
-                    case "АТ \"СЕНС БАНК\"":
+                    case ("АТ \"СЕНС БАНК\"", "Швидкий"):
                         Sensbank(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                         print(f" MSG: ✅ Інформацію додано в датафрейм")
-                    case "АТ \"Райффайзен Банк\" - Вклад «Класичний Строковий» в гривні":
+                    case ("АТ \"Райффайзен Банк\"", "Вклад «Класичний Строковий» в гривні"):
                         RaiffeisenUAH(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                         print(f" MSG: ✅ Інформацію додано в датафрейм")
-                    case "АТ \"Райффайзен Банк\" - Вклад Класичний Строковий в доларах США, євро":
-                        RaiffeisenUSD_EUR(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
+                    case ("АТ \"Райффайзен Банк\"", "Вклад Класичний Строковий в доларах США, євро"):
+                         RaiffeisenUSD_EUR(bank['Bank'], bank['Deposit_page_URL'], df_deposit)
                     case _:
-                        print(f" MSG: ⚠️  На поточний момент алгоритм для аналізу не готовий")
+                        print(f" MSG: ⚠️ На поточний момент алгоритм парсингу не готовий")
                 print()
     # -------------------------------------------------------------------------------------
     if not os.path.exists(os.path.join(path_name, PATH_OUT)):
